@@ -8,13 +8,13 @@ export async function createUser(req, res) {
     const { name, email, password } = req.body;
     const cryptoPassword = bcrypt.hashSync(password, 10);
 
-    const participantSchema = joi.object({
+    const userSchema = joi.object({
         name: joi.string().required(),
         email: joi.string().email().required(),
         password: joi.string().required(),
     })
 
-    const validate = participantSchema.validate(req.body);
+    const validate = userSchema.validate(req.body);
     if (validate.error) {
         console.log(validate.error.details);
         res.status(422).send("Favor preecher os campos corretamente");
@@ -22,14 +22,14 @@ export async function createUser(req, res) {
     }
 
     try {
-        const participant = await db.collection("MyWalletUsers").find({ name }).toArray();
+        const user = await db.collection("MyWalletUsers").find({ name }).toArray();
 
-        if (participant.some(e => e.name === req.body.name)) {
+        if (user.some(e => e.name === req.body.name)) {
             res.status(409).send("user ja existe!");
             return;
         }
     } catch (error) {
-        res.status(500).send("erro ao procurar participante na database");
+        res.status(500).send("erro ao procurar user na database");
         return;
     }
 
