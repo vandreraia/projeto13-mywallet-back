@@ -5,10 +5,12 @@ import db from "../databases/db.js";
 import dayjs from "dayjs";
 
 export function entry(req, res) {
-    const { value, description, type } = req.body;
+    const { description, type } = req.body;
+    const value = parseInt(req.body.value);
     const entrySchema = joi.object({
-        value: joi.string().required(),
-        description: joi.string().required()
+        value: joi.number().required(),
+        description: joi.string().required(),
+        type: joi.string().required()
     })
 
     const validate = entrySchema.validate(req.body);
