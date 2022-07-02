@@ -14,6 +14,7 @@ server.use(json());
 server.use(userRouter);
 server.use(dataRouter);
 
-server.listen(5000, () => {
-    console.log("Rodando em http://localhost:5000");
+const PORT = process.env.PORT;
+server.listen(PORT, () => {
+    console.log("Rodando na porta " + PORT);
 });
